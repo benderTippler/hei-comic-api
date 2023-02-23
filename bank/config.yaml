@@ -1,0 +1,138 @@
+jwt:
+  secret: "heibox-comic"
+  path:
+    - "/v1/comic/login" # 登录接口
+    - "/v1/comic/logout" # 退出接口
+    - "/v1/comic/list" # 漫画列表接口
+    - "/v1/comic/detail" # 漫画详情接口
+    - "/v1/comic/setting" #设置接口
+    - "/v1/comic/chapter" #章节接口
+    - "/v1/comic/chapter/ready/resource"
+
+    - "/v1/user/send-email" # 用户注册发送邮箱验证码
+    - "/v1/user/register"  # 用户注册
+    - "/v1/user/login"  # 用户登录
+smtp:
+  host: "smtp.qq.com"
+  port: ":587"
+  username: "503186749@qq.com"
+  password: "rwwzqwmvrqrmcaja"
+
+
+server:
+  addr: '0.0.0.0:9000'
+  cert: ''
+  key: ''
+  autoTls: false
+
+database:
+  user: 'root'
+  pass: '6959868php'
+  host: '192.168.0.120'
+  port: 3306
+  dbname: 'heibox-comic'
+  charset: 'utf8mb4'
+  debug: true
+
+mongo:
+  user: 'hei-comics'
+  pass: '6959868php'
+  host: '192.168.0.120'
+  port: 27017
+
+redis:
+  addr: '192.168.0.120:6379'
+  password: '6959868redis'
+  db: 0
+
+comic:
+  #storageDirectory: '/home/comic/data'
+  storageDirectory: 'E:\'
+
+#采集器任务配置
+adapter:
+  # 包子漫画采集设置
+
+  -
+    name: "包子漫画"
+    orderId: 1  #适配器变化
+    sort: 0      #适配器采集顺序
+    realTime: false
+    comicChan: 1
+    chapterChan: 1
+    origin: "https://cn.baozimh.com"
+    referer: ""
+    maxTry: 1
+    language: "zh"
+    switch: true #是否开启
+    collect:
+      - list
+    cachePath: './dataCache'
+    scope:
+      -
+    listTemplate:
+      - "%v/classify?page=%v"
+  -
+    name: "动漫之家"
+    orderId: 2  #适配器变化
+    realTime: false
+    sort: 1     #适配器采集顺序
+    comicChan: 20
+    chapterChan: 20
+    origin: "https://manhua.dmzj.com"
+    referer: ""
+    maxTry: 5
+    language: "zh"
+    switch: true #是否开启
+    collect:
+      - list
+      - resource
+    cachePath: './dataCache'
+    scope:
+      -
+    listTemplate:
+      - "https://sacg.dmzj.com/mh/index.php?c=category&m=doSearch&status=0&reader_group=0&zone=0&initial=all&type=0&p=%v&callback=search.renderResult"
+  -
+    name: "Mangabz"
+    orderId: 6  #适配器变化
+    realTime: false
+    sort: 5    #适配器采集顺序
+    comicChan: 10
+    chapterChan: 20
+    origin: "https://www.mangabz.com"
+    referer: "https://www.mangabz.com"
+    maxTry: 5
+    language: "zh"
+    switch: true #是否开启
+    collect:
+      - list
+      - resource
+    cachePath: ''
+    scope:
+      - "resources"
+    listTemplate:
+      - "%v/manga-list-p%v"
+
+
+  -
+    name: "MangaStream"
+    orderId: 7  #适配器变化
+    realTime: false
+    sort: 4    #适配器采集顺序
+    comicChan: 10
+    chapterChan: 10
+    origin: "http://mangastream.mobi"
+    referer: ""
+    maxTry: 5
+    language: "en"
+    switch: true #是否开启
+    collect:
+      - list
+      - resource
+    cachePath: ''
+    scope:
+      -
+    listTemplate:
+      - "%v/?page=%v"
+
+
